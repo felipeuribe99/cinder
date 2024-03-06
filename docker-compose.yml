@@ -1,0 +1,45 @@
+version: '3.9'
+
+services:
+  mongodb:
+    container_name: mongodb
+    image: mongo:latest
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo-data:/data/db
+
+  api:
+    container_name: api
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    environment:
+      NODE_ENV: development
+    volumes:
+      - ./api:/usr/src/app
+    env_file:
+      - .env
+    depends_on:
+      - mongodb
+
+  client:
+    container_name: client
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    environment:
+      NODE_ENV: development
+    ports:
+      - "3001:3000"
+    env_file:
+      - .env
+    volumes:
+      - ./client:/usr/src/app
+    depends_on:
+      - api
+
+volumes:
+  mongo-data:
