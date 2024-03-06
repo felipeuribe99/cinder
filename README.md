@@ -4,8 +4,11 @@ This project consist on a chat applicattion where users from the same organizati
 
 ### 1. Technologies in this project:
 **- NestJS:** *Backend*
+
 **- NextJS:** *Frontend*
+
 **- MongoDB:** *Database*
+
 **- Docker:** *Containers*
 
 ### 2. Run the project:
