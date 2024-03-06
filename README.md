@@ -21,7 +21,9 @@ docker-compose up --build
 ### 3. Contributors:
 - This project leverage numerous open-source codes, public GitHub repositories and different blogs. Specific references included: 
   - The setup of the backend is based in the following link:
+
   *https://dev.to/nyomansunima/create-nestjs-api-using-typescript-mongodb-docker-docker-compose-29k9*
   - The frontend setup was realized following the documentation of NextJS v14:
+  
   *https://nextjs.org/docs/pages/api-reference/create-next-app*
 
