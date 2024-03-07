@@ -30,4 +30,18 @@ export class CreateUserDto {
   admin: boolean;
 }
 
-export class UpdateUserDto extends PartialType(CreateUserDto) {}
+export class UpdateUserDto extends PartialType(CreateUserDto) {
+  // @ApiProperty({
+  //   description: "The user's organization ID",
+  //   type: String,
+  //   example: "65ea398ffd894565b7738174"
+  // })
+  // organization: string;
+
+  // @ApiProperty({
+  //   description: "The user's room ID",
+  //   type: [String],
+  //   example: ["65ea398ffd894565b7738174"]
+  // })
+  // room: string[];
+}
