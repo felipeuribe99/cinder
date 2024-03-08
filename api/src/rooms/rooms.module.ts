@@ -12,5 +12,6 @@ import { OrganizationsModule } from "src/organizations/organizations.module";
   ],
   controllers: [RoomsController],
   providers: [RoomsService],
+  exports: [RoomsService],
 })
 export class RoomsModule {}

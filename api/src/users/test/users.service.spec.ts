@@ -7,13 +7,12 @@ import { Model } from "mongoose";
 import { CreateUserDto, UpdateUserDto } from "../dto/users.dto";
 
 import { OrganizationsService } from "../../organizations/organizations.service";
+import { RoomsService } from "../../rooms/rooms.service";
 
 
 describe('UsersService', () => {
   let usersService: UsersService;
   let userModel: Model<User>;
-
-  let organizationsService: OrganizationsService;
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
@@ -26,6 +25,10 @@ describe('UsersService', () => {
         {
           provide: OrganizationsService,
           useValue: mockOrganizationsService,
+        },
+        {
+          provide: RoomsService,
+          useValue: mockRoomsService,
         }
       ],
     }).compile();
@@ -103,7 +106,8 @@ describe('UsersService', () => {
       beforeEach(async () => {
         updateUserDto = {
           name: "Other Name",
-          organizationId: userStub().organization._id as unknown as string
+          organizationId: userStub().organization._id as unknown as string,
+          roomIds: [userStub().rooms[0]._id as unknown as string],
         }
         user = await usersService.update(userStub()._id as unknown as string, updateUserDto);
       });
@@ -140,4 +144,8 @@ const mockUserModel = {
 
 const mockOrganizationsService = {
   findOne: jest.fn().mockResolvedValue(userStub().organization),
+}
+
+const mockRoomsService = {
+  findOne: jest.fn().mockResolvedValue(userStub().rooms[0]),
 }

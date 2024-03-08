@@ -92,7 +92,8 @@ describe('UsersController', () => {
       beforeEach(async () => {
         updateUserDto = {
           name: 'Other Name',
-          organizationId: userStub().organization._id as unknown as string
+          organizationId: userStub().organization._id as unknown as string,
+          roomIds: [userStub().rooms[0]._id as unknown as string],
         }
         user = await usersController.update(userStub()._id as unknown as string, updateUserDto)
       })

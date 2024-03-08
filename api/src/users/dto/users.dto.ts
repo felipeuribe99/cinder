@@ -38,10 +38,10 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   })
   organizationId: string;
 
-  // @ApiProperty({
-  //   description: "The user's room ID",
-  //   type: [String],
-  //   example: ["65ea398ffd894565b7738174"]
-  // })
-  // room: string[];
+  @ApiProperty({
+    description: "The user's rooms ID",
+    type: [String],
+    example: ["65ea398ffd894565b7738174"]
+  })
+  roomIds: string[];
 }
