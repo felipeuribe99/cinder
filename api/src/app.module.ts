@@ -5,7 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UsersModule } from './users/users.module';
-import { OrganizationsModule } from './organizations/organization.module';
+import { OrganizationsModule } from './organizations/organizations.module';
 
 
 @Module({
