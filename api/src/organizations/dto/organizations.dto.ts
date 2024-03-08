@@ -1,8 +1,6 @@
 import { ApiProperty, PartialType } from "@nestjs/swagger";
-import { IsNotEmpty } from "class-validator";
 
 export class CreateOrganizationDto {
-  @IsNotEmpty()
   @ApiProperty({
     description: "The organization's name",
     type: String,
