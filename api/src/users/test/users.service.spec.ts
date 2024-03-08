@@ -6,10 +6,14 @@ import { userStub } from "./stubs/user.stub";
 import { Model } from "mongoose";
 import { CreateUserDto, UpdateUserDto } from "../dto/users.dto";
 
+import { OrganizationsService } from "../../organizations/organizations.service";
+
 
 describe('UsersService', () => {
   let usersService: UsersService;
   let userModel: Model<User>;
+
+  let organizationsService: OrganizationsService;
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
@@ -18,6 +22,10 @@ describe('UsersService', () => {
         {
           provide: getModelToken(User.name),
           useValue: mockUserModel,
+        },
+        {
+          provide: OrganizationsService,
+          useValue: mockOrganizationsService,
         }
       ],
     }).compile();
@@ -95,18 +103,22 @@ describe('UsersService', () => {
       beforeEach(async () => {
         updateUserDto = {
           name: "Other Name",
+          organizationId: userStub().organization._id as unknown as string
         }
         user = await usersService.update(userStub()._id as unknown as string, updateUserDto);
       });
 
       test('then it should call the userModel', () => {
-        expect(userModel.findByIdAndUpdate).toHaveBeenCalledWith(userStub()._id, updateUserDto, { new: true });
+        expect(userModel.findByIdAndUpdate).toHaveBeenCalledWith(userStub()._id, {
+          ...userStub(),
+          name: updateUserDto.name,
+        }, { new: true });
       });
 
       test('then it should return a user', () => {
         expect(user).toEqual({
           ...userStub(),
-          ...updateUserDto
+          name: updateUserDto.name,
         });
       });
     });
@@ -120,8 +132,12 @@ const mockUserModel = {
   findById: jest.fn().mockImplementation((id) => ({
     exec: jest.fn().mockResolvedValue(userStub()),
   })),
-  findByIdAndUpdate: jest.fn().mockImplementation((id, updateUserDto) => ({
-    exec: jest.fn().mockResolvedValue({ ...userStub(), ...updateUserDto }),
+  findByIdAndUpdate: jest.fn().mockImplementation((id, user) => ({
+    exec: jest.fn().mockResolvedValue(user),
   })),
   create: jest.fn().mockResolvedValue(userStub()),
 };
+
+const mockOrganizationsService = {
+  findOne: jest.fn().mockResolvedValue(userStub().organization),
+}

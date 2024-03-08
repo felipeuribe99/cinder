@@ -1,8 +1,6 @@
 import { ApiProperty, PartialType } from "@nestjs/swagger";
-import { IsNotEmpty } from "class-validator";
 
 export class CreateUserDto {
-  @IsNotEmpty()
   @ApiProperty({
     description: "The user's name",
     type: String,
@@ -10,7 +8,6 @@ export class CreateUserDto {
   })
   name: string;
   
-  @IsNotEmpty()
   @ApiProperty({
     description: "The user's email",
     type: String,
@@ -18,7 +15,6 @@ export class CreateUserDto {
   })
   email: string;
 
-  @IsNotEmpty()
   @ApiProperty({
     description: "The user's password",
     type: String,
@@ -26,7 +22,6 @@ export class CreateUserDto {
   })
   password: string;
   
-  @IsNotEmpty()
   @ApiProperty({
     description: "The user's admin status",
     type: Boolean,
@@ -36,12 +31,12 @@ export class CreateUserDto {
 }
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {
-  // @ApiProperty({
-  //   description: "The user's organization ID",
-  //   type: String,
-  //   example: "65ea398ffd894565b7738174"
-  // })
-  // organization: string;
+  @ApiProperty({
+    description: "The user's organization ID",
+    type: String,
+    example: "65ea398ffd894565b7738174"
+  })
+  organizationId: string;
 
   // @ApiProperty({
   //   description: "The user's room ID",
