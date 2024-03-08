@@ -3,7 +3,7 @@ import { UsersController } from "../users.controller";
 import { UsersService } from "../users.service";
 import { userStub } from "./stubs/user.stub";
 import { User } from "../schemas/users.schema";
-import { CreateUserDto, UpdateUserDto } from "../dto/create-user.dto";
+import { CreateUserDto, UpdateUserDto } from "../dto/users.dto";
 
 jest.mock("../users.service");
 

@@ -4,7 +4,7 @@ import { getModelToken } from "@nestjs/mongoose";
 import { User } from "../schemas/users.schema";
 import { userStub } from "./stubs/user.stub";
 import { Model } from "mongoose";
-import { CreateUserDto, UpdateUserDto } from "../dto/create-user.dto";
+import { CreateUserDto, UpdateUserDto } from "../dto/users.dto";
 
 
 describe('UsersService', () => {
