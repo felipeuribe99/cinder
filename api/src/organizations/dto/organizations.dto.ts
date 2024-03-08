@@ -9,14 +9,6 @@ export class CreateOrganizationDto {
     example: "Cinder"
   })
   name: string;
-  
-  @IsNotEmpty()
-  @ApiProperty({
-    description: "The admin id",
-    type: String,
-    example: "65ea398ffd894565b7738174"
-  })
-  admin: string;
 }
 
 export class UpdateOrganizationDto extends PartialType(CreateOrganizationDto) {}
