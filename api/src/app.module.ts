@@ -6,6 +6,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UsersModule } from './users/users.module';
 import { OrganizationsModule } from './organizations/organizations.module';
+import { RoomsModule } from './rooms/rooms.module';
 
 
 @Module({
@@ -23,7 +24,8 @@ import { OrganizationsModule } from './organizations/organizations.module';
         : process.env.MONGO_URI,
     ),
     UsersModule,
-    OrganizationsModule
+    OrganizationsModule,
+    RoomsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
