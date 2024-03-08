@@ -5,6 +5,7 @@ import { User } from "./schemas/users.schema";
 import { CreateUserDto, UpdateUserDto } from "./dto/users.dto";
 
 import { OrganizationsService } from "../organizations/organizations.service";
+import { RoomsService } from "../rooms/rooms.service";
 
 @Injectable()
 export class UsersService {
@@ -12,6 +13,7 @@ export class UsersService {
     @InjectModel(User.name) 
     private userModel: Model<User>,
     private organizationsService: OrganizationsService,
+    private roomsService: RoomsService,
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
@@ -27,15 +29,25 @@ export class UsersService {
   }
 
   async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
-    const { organizationId, ...userBody } = updateUserDto;
-    const organization = await this.organizationsService.findOne(organizationId);
-    
+    const { organizationId, roomIds, ...userBody } = updateUserDto;
     let user = await this.findOne(id);
-
-    if (organization) {
+    
+    if (organizationId) {
+      const organization = await this.organizationsService.findOne(organizationId);
       user.organization = organization;
     } else {
       user.organization = user.organization;
+    }
+
+    if (roomIds) {
+      for (const roomId of roomIds) {
+        for (const room of user.rooms) {
+          if (room._id.toString() === roomId) {
+            const room = await this.roomsService.findOne(roomId);
+            user.rooms.push(room);
+          }
+        }
+      }
     }
 
     user = { ...user, ...userBody };

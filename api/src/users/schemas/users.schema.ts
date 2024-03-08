@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose, { HydratedDocument, Types } from "mongoose";
 import { Organization } from "../../organizations/schemas/organizations.schema";
+import { Room } from "../../rooms/schemas/rooms.schema";
 
 export type UserDocument = HydratedDocument<User>;
 
@@ -21,8 +22,8 @@ export class User {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Organization' })
   organization: Organization;
 
-  // @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Room' }] })
-  // room: Room[];
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Room' }] })
+  rooms: Room[];
 
   _id: Types.ObjectId;
   __v: number;

@@ -6,7 +6,7 @@ export const roomStub = (): Room => {
   return {
     name: "Test Room",
     organization: organizationStub(),
-    _id: "65ea398ffd894565b7738174" as unknown as Types.ObjectId,
+    _id: "65ea398ffd894565b7738172" as unknown as Types.ObjectId,
     __v: 0
   }
 }
