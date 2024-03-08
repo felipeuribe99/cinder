@@ -32,7 +32,7 @@ export class RoomsService {
     return this.roomModel.findById(id).exec();
   }
 
-  async update(id: string, createRoomDto: UpdateRoomDto): Promise<Room> {
-    return this.roomModel.findByIdAndUpdate(id, createRoomDto, { new: true }).exec();
+  async update(id: string, updateRoomDto: UpdateRoomDto): Promise<Room> {
+    return this.roomModel.findByIdAndUpdate(id, updateRoomDto, { new: true }).exec();
   }
 }
