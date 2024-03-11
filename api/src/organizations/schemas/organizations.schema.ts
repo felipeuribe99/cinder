@@ -5,7 +5,7 @@ export type OrganizationDocument = HydratedDocument<Organization>;
 
 @Schema()
 export class Organization {
-  @Prop({ required: true })
+  @Prop({ required: true, unique: true })
   name: string;
 
   _id: Types.ObjectId;

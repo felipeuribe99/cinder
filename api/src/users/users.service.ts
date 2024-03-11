@@ -20,8 +20,9 @@ export class UsersService {
     return this.userModel.create(createUserDto);
   }
 
-  async findAll(): Promise<User[]> {
-    return this.userModel.find().exec();
+  async findAll(organizationId: string): Promise<User[]> {
+    await this.organizationsService.findOne(organizationId);
+    return this.userModel.find({ organization: organizationId }).exec();
   }
 
   async findOne(id: string): Promise<User> {
@@ -44,9 +45,14 @@ export class UsersService {
     return user;
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto, adminId?: string): Promise<User> {
-    const { organizationId, roomIds, is_approved, ...userBody } = updateUserDto;
-    const admin = await this.findOne(adminId);
+  async update(
+    id: string, 
+    updateUserDto: UpdateUserDto, 
+    adminId: string,
+    isNewOrganization?: boolean,
+  ): Promise<User> {
+    const { organizationId, roomIds, ...userBody } = updateUserDto;
+    const adminUser = await this.findOne(adminId);
     let user = await this.findOne(id);
     
     if (organizationId) {
@@ -55,26 +61,50 @@ export class UsersService {
     }
 
     if (roomIds) {
-      for (const roomId of roomIds) {
-        for (const room of user.rooms) {
-          if (room._id.toString() === roomId) {
-            const room = await this.roomsService.findOne(roomId);
-            user.rooms.push(room);
-          }
+      await this.updateUserRooms(user, roomIds);
+    }
+
+    if (userBody.isApproved) {
+      try {
+        if (adminUser.admin || isNewOrganization) {
+          user.isApproved = userBody.isApproved;
+          const room = await this.roomsService.findByName(organizationId, "general");
+          await this.updateUserRooms(user, [room._id.toString()]);
+        } else {
+          throw new NotFoundException(`User with id ${adminId} is not an admin`);
         }
+      } catch (error) {
+        throw new NotFoundException(`User without authorization to approve users`);
       }
     }
 
-    if (is_approved) {
-      if (admin?.admin) {
-        user.is_approved = is_approved;
-      } else {
-        throw new NotFoundException(`User with id ${adminId} is not an admin`);
+    if (userBody.admin) {
+      try {
+        if (adminUser.admin || isNewOrganization) {
+          user.admin = userBody.admin;
+        } else {
+          throw new NotFoundException(`User with id ${adminId} is not an admin`);
+        }
+      } catch (error) {
+        throw new NotFoundException(`User without authorization to approve users`);
       }
     }
-
-    user = { ...user, ...userBody };
 
     return this.userModel.findByIdAndUpdate(id, user, { new: true }).exec();
+  }
+
+  private async updateUserRooms(user: User, roomIds: string[]): Promise<User> {
+    const userRoomIdsSet = new Set(user.rooms.map(room => room._id.toString()));
+
+    const uniqueNewRoomIds = roomIds.filter(roomId => !userRoomIdsSet.has(roomId));
+
+    for (const roomId of uniqueNewRoomIds) {
+      const newRoom = await this.roomsService.findOne(roomId);
+      if (newRoom) {
+        user.rooms.push(newRoom);
+      }
+    }
+
+    return user;
   }
 }

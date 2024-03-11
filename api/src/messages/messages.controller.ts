@@ -27,7 +27,7 @@ export class MessagesController {
     @Request() req: any, 
     @Body() createMessageDto: CreateMessageDto
   ) {
-    const { userId } = req.user.sub;
+    const userId = req.user.sub;
     return this.messagesService.create(userId, createMessageDto);
   }
 }

@@ -8,8 +8,8 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get("/:organizationId")
-  async findAll() {
-    return this.usersService.findAll();
+  async findAll(@Param("organizationId") organizationId: string) {
+    return this.usersService.findAll(organizationId);
   }
 
   @Get("/:id")
@@ -19,7 +19,6 @@ export class UsersController {
 
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
-    console.log(createUserDto)
     return this.usersService.create(createUserDto);
   }
 
@@ -31,7 +30,7 @@ export class UsersController {
     @Request() req: any
   ) 
   {
-    const { adminId } = req.user.sub;
+    const adminId = req.user.sub;
     return this.usersService.update(id, updateUserDto, adminId);
   }
 }
