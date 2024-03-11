@@ -3,7 +3,7 @@ import { MongooseModule } from "@nestjs/mongoose";
 import { RoomsController } from "./rooms.controller";
 import { RoomsService } from "./rooms.service";
 import { Room, RoomSchema } from "./schemas/rooms.schema";
-import { OrganizationsModule } from "src/organizations/organizations.module";
+import { OrganizationsModule } from "../organizations/organizations.module";
 
 @Module({
   imports: [
