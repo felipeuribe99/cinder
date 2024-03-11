@@ -8,6 +8,7 @@ import { UsersModule } from './users/users.module';
 import { OrganizationsModule } from './organizations/organizations.module';
 import { RoomsModule } from './rooms/rooms.module';
 import { MessagesModule } from './messages/messages.module';
+import { AuthModule } from './auth/auth.module';
 
 
 @Module({
@@ -27,7 +28,8 @@ import { MessagesModule } from './messages/messages.module';
     UsersModule,
     OrganizationsModule,
     RoomsModule,
-    MessagesModule
+    MessagesModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService],

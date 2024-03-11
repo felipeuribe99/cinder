@@ -28,6 +28,12 @@ export class UsersService {
     return this.userModel.findById(id).exec();
   }
 
+  async findByEmail(email: string): Promise<User> {
+    return this.userModel.findOne({
+      email: email
+    }).exec();
+  }
+
   async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
     const { organizationId, roomIds, ...userBody } = updateUserDto;
     let user = await this.findOne(id);
