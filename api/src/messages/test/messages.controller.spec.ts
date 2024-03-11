@@ -80,7 +80,7 @@ describe('MessagesController', () => {
 
         message = await messagesController.create(
         {
-          user: { _id: messageStub().user._id },
+          user: { sub: messageStub().user._id },
         } as any,
         createMessageDto);
       });

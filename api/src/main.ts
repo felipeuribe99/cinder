@@ -5,6 +5,7 @@ import { ValidationPipe, VersioningType } from '@nestjs/common';
 import helmet from 'helmet';
 import * as compression from 'compression';
 import * as cookieParser from 'cookie-parser';
+import * as bodyParser from 'body-parser';
 
 const PORT = parseInt(process.env.PORT) || 3000
 
@@ -21,9 +22,7 @@ async function bootstrap() {
   
   app.enableCors({ origin: '*' });
   app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true,
-    }),
+    new ValidationPipe(),
   );
   app.enableVersioning({
     type: VersioningType.URI,
@@ -31,6 +30,7 @@ async function bootstrap() {
   app.use(helmet());
   app.use(compression());
   app.use(cookieParser());
+  app.use(bodyParser.json());
 
   try {
     await app.listen(PORT, () => {
