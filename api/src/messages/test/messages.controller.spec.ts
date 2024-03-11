@@ -4,6 +4,8 @@ import { MessagesService } from "../messages.service";
 import { messageStub } from "./stubs/message.stub";
 import { Message } from "../schemas/messages.schema";
 import { CreateMessageDto } from "../dto/messages.dto";
+import { JwtService } from "@nestjs/jwt";
+import { FakeAuthModule } from "../../auth/__mocks__/fake-auth-module";
 
 jest.mock("../messages.service");
 
@@ -13,9 +15,9 @@ describe('MessagesController', () => {
   
   beforeEach(async () => {
     const module = await Test.createTestingModule({
-      imports: [],
+      imports: [FakeAuthModule],
       controllers: [MessagesController],
-      providers: [MessagesService],
+      providers: [MessagesService, JwtService],
     }).compile(); 
 
     messagesController = module.get<MessagesController>(MessagesController);
@@ -28,7 +30,7 @@ describe('MessagesController', () => {
       let messages: Message[]
 
       beforeEach(async () => {
-        messages = await messagesController.findAll()
+        messages = await messagesController.findAll(messageStub().room._id as unknown as string)
       })
 
       test('then it should call messagesService', () => {
@@ -36,7 +38,10 @@ describe('MessagesController', () => {
       });
 
       test('then it should return an array of messages', () => {
-        expect(messages).toEqual([messageStub()]);
+        expect(messages).toEqual([{
+          ...messageStub(),
+          date: expect.any(Date),
+        }]);
       });
     });
   });
@@ -54,31 +59,43 @@ describe('MessagesController', () => {
       });
 
       test('then it should return a message', () => {
-        expect(message).toEqual(messageStub());
+        expect(message).toEqual({
+          ...messageStub(),
+          date: expect.any(Date),
+        });
       });
     });
   });
 
   describe('create', () => {
     describe('when create is called', () => {
-      let message: Message
-      let createMessageDto: CreateMessageDto
+      let message: Message;
+      let createMessageDto: CreateMessageDto;
 
       beforeEach(async () => {
         createMessageDto = {
           text: messageStub().text,
-          userId: messageStub().user._id as unknown as string,
-          roomId: messageStub().room._id as unknown as string
-        }
-        message = await messagesController.create(createMessageDto)
-      })
+          roomId: messageStub().room._id as unknown as string,
+        };
+
+        message = await messagesController.create({
+          user: { _id: messageStub().user._id },
+        } as any,
+        createMessageDto);
+      });
 
       test('then it should call messagesService', () => {
-        expect(messagesService.create).toHaveBeenCalledWith(createMessageDto);
+        expect(messagesService.create).toHaveBeenCalledWith(
+          undefined,
+          createMessageDto
+        );
       });
 
       test('then it should return a message', () => {
-        expect(message).toEqual(messageStub());
+        expect(message).toEqual({
+          ...messageStub(),
+          date: expect.any(Date),
+        });
       });
     });
   });

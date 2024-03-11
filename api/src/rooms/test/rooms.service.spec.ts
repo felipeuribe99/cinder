@@ -39,7 +39,7 @@ describe('RoomsService', () => {
       let rooms: Room[];
 
       beforeEach(async () => {
-        rooms = await roomsService.findAll();
+        rooms = await roomsService.findAll(roomStub().organization._id as unknown as string);
       });
 
       test('then it should call the roomModel', () => {

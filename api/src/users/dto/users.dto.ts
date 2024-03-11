@@ -36,12 +36,19 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
     type: String,
     example: "65ea398ffd894565b7738174"
   })
-  organizationId: string;
+  organizationId?: string;
 
   @ApiProperty({
     description: "The user's rooms ID",
     type: [String],
     example: ["65ea398ffd894565b7738174"]
   })
-  roomIds: string[];
+  roomIds?: string[];
+
+  @ApiProperty({
+    description: "The user's status in the org",
+    type: Boolean,
+    example: false
+  })
+  is_approved?: boolean;
 }

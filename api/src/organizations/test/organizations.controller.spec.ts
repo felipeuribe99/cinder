@@ -59,28 +59,6 @@ describe('OrganizationsController', () => {
     });
   });
 
-  describe('create', () => {
-    describe('when create is called', () => {
-      let organization: Organization
-      let createOrganizationDto: CreateOrganizationDto
-
-      beforeEach(async () => {
-        createOrganizationDto = {
-          name: organizationStub().name,
-        }
-        organization = await organizationsController.create(createOrganizationDto)
-      })
-
-      test('then it should call organizationsService', () => {
-        expect(organizationsService.create).toHaveBeenCalledWith(createOrganizationDto);
-      });
-
-      test('then it should return a organization', () => {
-        expect(organization).toEqual(organizationStub());
-      });
-    });
-  });
-
   describe('update', () => {
     describe('when update is called', () => {
       let organization: Organization

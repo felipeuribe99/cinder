@@ -9,6 +9,7 @@ import { OrganizationsModule } from './organizations/organizations.module';
 import { RoomsModule } from './rooms/rooms.module';
 import { MessagesModule } from './messages/messages.module';
 import { AuthModule } from './auth/auth.module';
+import { CommonsModule } from './common/commons.module';
 
 
 @Module({
@@ -29,7 +30,8 @@ import { AuthModule } from './auth/auth.module';
     OrganizationsModule,
     RoomsModule,
     MessagesModule,
-    AuthModule
+    AuthModule,
+    CommonsModule
   ],
   controllers: [AppController],
   providers: [AppService],

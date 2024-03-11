@@ -1,5 +1,5 @@
 import { Model } from "mongoose";
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Organization } from "./schemas/organizations.schema";
 import { CreateOrganizationDto, UpdateOrganizationDto } from "./dto/organizations.dto";
@@ -17,7 +17,13 @@ export class OrganizationsService {
   }
 
   async findOne(id: string): Promise<Organization> {
-    return this.organizationModel.findById(id).exec();
+    const organization = this.organizationModel
+      .findById(id)
+      .exec();
+    if (!organization) {
+      throw new NotFoundException(`Organization with id ${id} not found`);
+    }
+    return organization;
   }
 
   async update(id: string, updateOrganizationDto: UpdateOrganizationDto): Promise<Organization> {

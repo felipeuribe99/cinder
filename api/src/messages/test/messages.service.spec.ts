@@ -42,7 +42,7 @@ describe('MessagesService', () => {
       let messages: Message[];
 
       beforeEach(async () => {
-        messages = await messagesService.findAll();
+        messages = await messagesService.findAll(messageStub().room._id as unknown as string);
       });
 
       test('then it should call the messageModel', () => {
@@ -50,7 +50,10 @@ describe('MessagesService', () => {
       });
 
       test('then it should return an array of messages', () => {
-        expect(messages).toEqual([messageStub()]);
+        expect(messages).toEqual([{
+          ...messageStub(),
+          date: expect.any(Date),
+        }]);
       });
     });
   });
@@ -68,7 +71,10 @@ describe('MessagesService', () => {
       });
 
       test('then it should return a message', () => {
-        expect(message).toEqual(messageStub());
+        expect(message).toEqual({
+          ...messageStub(),
+          date: expect.any(Date),
+        });
       });
     });
   });
@@ -81,10 +87,9 @@ describe('MessagesService', () => {
       beforeEach(async () => {
         createMessageDto = {
           text: "Test Message",
-          userId: messageStub().user._id as unknown as string,
           roomId: messageStub().room._id as unknown as string,
         }
-        message = await messagesService.create(createMessageDto);
+        message = await messagesService.create(messageStub().user._id as unknown as string, createMessageDto);
       });
 
       test('then it should call the messageModel', () => {
@@ -92,11 +97,15 @@ describe('MessagesService', () => {
           text: createMessageDto.text,
           user: messageStub().user,
           room: messageStub().room,
+          date: expect.any(Date),
         });
       });
 
       test('then it should return a message', () => {
-        expect(message).toEqual(messageStub());
+        expect(message).toEqual({
+          ...messageStub(),
+          date: expect.any(Date),
+        });
       });
     });
   });
@@ -105,6 +114,7 @@ describe('MessagesService', () => {
 const mockMessageModel = {
   find: jest.fn().mockImplementation(() => ({
     exec: jest.fn().mockResolvedValue([messageStub()]),
+    populate: jest.fn().mockReturnThis(),
   })),
   findById: jest.fn().mockImplementation((id) => ({
     exec: jest.fn().mockResolvedValue(messageStub()),

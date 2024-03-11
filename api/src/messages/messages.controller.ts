@@ -1,14 +1,15 @@
-import { Controller, Get, Post, Param } from "@nestjs/common";
+import { Controller, Get, Post, Param, UseGuards } from "@nestjs/common";
 import { CreateMessageDto } from "./dto/messages.dto";
 import { MessagesService } from "./messages.service";
+import { AuthGuard } from "../auth/auth.guard";
 
 @Controller("messages")
 export class MessagesController {
   constructor(private readonly messagesService: MessagesService) {}
 
   @Get()
-  async findAll() {
-    return this.messagesService.findAll();
+  async findAll(roomId: string) {
+    return this.messagesService.findAll(roomId);
   }
 
   @Get(":id")
@@ -16,8 +17,10 @@ export class MessagesController {
     return this.messagesService.findOne(id);
   }
 
+  @UseGuards(AuthGuard)
   @Post()
-  async create(createMessageDto: CreateMessageDto) {
-    return this.messagesService.create(createMessageDto);
+  async create(req: any, createMessageDto: CreateMessageDto) {
+    const { userId } = req.user._id;
+    return this.messagesService.create(userId, createMessageDto);
   }
 }

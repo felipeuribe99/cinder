@@ -9,6 +9,7 @@ export const userStub = (): User => {
     email: "test@test.com",
     password: "password",
     admin: false,
+    is_approved: false,
     organization: organizationStub(),
     rooms: [roomStub()],
     _id: "65ea398ffd894565b7738170" as unknown as Types.ObjectId,

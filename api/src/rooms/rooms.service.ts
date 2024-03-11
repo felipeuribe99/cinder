@@ -1,5 +1,5 @@
 import { Model } from "mongoose";
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Room } from "./schemas/rooms.schema";
 import { CreateRoomDto, UpdateRoomDto } from "./dto/rooms.dto";
@@ -24,12 +24,18 @@ export class RoomsService {
     return room;
   }
 
-  async findAll(): Promise<Room[]> {
-    return this.roomModel.find().exec();
+  async findAll(organizationId: string): Promise<Room[]> {
+    return this.roomModel.find({ organization: organizationId }).exec();
   }
 
   async findOne(id: string): Promise<Room> {
-    return this.roomModel.findById(id).exec();
+    const room = this.roomModel
+      .findById(id)
+      .exec();
+    if (!room) {
+      throw new NotFoundException(`Room with id ${id} not found`);
+    }
+    return room;
   }
 
   async update(id: string, updateRoomDto: UpdateRoomDto): Promise<Room> {

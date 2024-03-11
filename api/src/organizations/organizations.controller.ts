@@ -16,11 +16,6 @@ export class OrganizationsController {
     return this.organizationsService.findOne(id);
   }
 
-  @Post()
-  async create(createOrganizationDto: CreateOrganizationDto) {
-    return this.organizationsService.create(createOrganizationDto);
-  }
-
   @Put(":id")
   async update(@Param("id") id: string, updateOrganizationDto: UpdateOrganizationDto) {
     return this.organizationsService.update(id, updateOrganizationDto);
