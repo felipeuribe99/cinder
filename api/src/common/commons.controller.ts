@@ -1,4 +1,4 @@
-import { Controller, Post, Put, UseGuards } from "@nestjs/common";
+import { Body, Controller, Post, Request, UseGuards } from "@nestjs/common";
 import { CommonsService } from "./commons.service";
 import { CreateOrganizationDto } from "../organizations/dto/organizations.dto";
 import { AuthGuard } from "../auth/auth.guard";
@@ -10,15 +10,21 @@ export class CommonsController {
 
   @UseGuards(AuthGuard)
   @Post('create-organization')
-  async createOrganization(createOrganizationDto: CreateOrganizationDto, req: any) {
-    const { userId } = req.user._id;
+  async createOrganization(
+    @Body()createOrganizationDto: CreateOrganizationDto, 
+    @Request() req: any
+  ) {
+    const { userId } = req.user.sub;
     return this.commonsService.createOrganization(userId, createOrganizationDto);
   }
 
   @UseGuards(AuthGuard)
   @Post('create-room')
-  async createRoom(createRoomDto: CreateRoomDto, req: any) {
-    const { userId } = req.user._id;
+  async createRoom(
+    @Body() createRoomDto: CreateRoomDto, 
+    @Request() req: any
+  ) {
+    const { userId } = req.user.sub;
     return this.commonsService.createRoom(userId, createRoomDto);
   }
 }

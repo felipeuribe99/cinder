@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Param } from "@nestjs/common";
+import { Controller, Get, Post, Put, Param, Body } from "@nestjs/common";
 import { CreateOrganizationDto, UpdateOrganizationDto } from "./dto/organizations.dto";
 import { OrganizationsService } from "./organizations.service";
 
@@ -11,13 +11,16 @@ export class OrganizationsController {
     return this.organizationsService.findAll();
   }
 
-  @Get(":id")
+  @Get("/:id")
   async findOne(@Param("id") id: string) {
     return this.organizationsService.findOne(id);
   }
 
-  @Put(":id")
-  async update(@Param("id") id: string, updateOrganizationDto: UpdateOrganizationDto) {
+  @Put("/:id")
+  async update(
+    @Param("id") id: string, 
+    @Body() updateOrganizationDto: UpdateOrganizationDto
+  ) {
     return this.organizationsService.update(id, updateOrganizationDto);
   }
 }

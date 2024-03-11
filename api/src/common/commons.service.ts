@@ -18,6 +18,7 @@ export class CommonsService {
 
   async createOrganization(userId: string, createOrganizationDto: CreateOrganizationDto): Promise<Organization> {
     const user = await this.usersService.findOne(userId);
+    console.log('user', user)
     const organization = await this.organizationsService.create(createOrganizationDto);
     const room = await this.roomsService.create({
       name: 'general',
