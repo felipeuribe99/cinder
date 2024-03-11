@@ -19,6 +19,9 @@ export class User {
   @Prop({ required: true, default: false })
   admin: boolean;
 
+  @Prop({ required: true, default: false })
+  is_approved: boolean;
+
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Organization' })
   organization: Organization;
 

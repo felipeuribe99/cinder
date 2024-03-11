@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Param } from "@nestjs/common";
+import { Controller, Get, Post, Put, Param, UseGuards } from "@nestjs/common";
 import { CreateRoomDto, UpdateRoomDto } from "./dto/rooms.dto";
 import { RoomsService } from "./rooms.service";
 
@@ -7,18 +7,13 @@ export class RoomsController {
   constructor(private readonly roomsService: RoomsService) {}
 
   @Get()
-  async findAll() {
-    return this.roomsService.findAll();
+  async findAll(organizationId: string) {
+    return this.roomsService.findAll(organizationId);
   }
 
   @Get(":id")
   async findOne(@Param("id") id: string) {
     return this.roomsService.findOne(id);
-  }
-
-  @Post()
-  async create(createRoomDto: CreateRoomDto) {
-    return this.roomsService.create(createRoomDto);
   }
 
   @Put(":id")

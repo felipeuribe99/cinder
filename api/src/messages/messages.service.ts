@@ -1,5 +1,5 @@
 import { Model } from "mongoose";
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Message } from "./schemas/messages.schema";
 import { CreateMessageDto } from "./dto/messages.dto";
@@ -16,22 +16,31 @@ export class MessagesService {
     private roomsService: RoomsService,
   ) {}
 
-  async create(createMessageDto: CreateMessageDto): Promise<Message> {
-    const { userId, roomId, ...messageBody } = createMessageDto;
+  async create(userId: string, createMessageDto: CreateMessageDto): Promise<Message> {
+    const { roomId, ...messageBody } = createMessageDto;
 
     const user = await this.usersService.findOne(userId);
     const room = await this.roomsService.findOne(roomId);
 
-    const message = this.messageModel.create({ ...messageBody, user, room });
+    const date = new Date();
+
+    const message = this.messageModel.create({ ...messageBody, user, room, date });
 
     return message;
   }
 
-  async findAll(): Promise<Message[]> {
-    return this.messageModel.find().exec();
+  async findAll(roomId: string): Promise<Message[]> {
+    return this.messageModel.find({ room: roomId }).populate('user').populate('room').exec();
   }
 
+
   async findOne(id: string): Promise<Message> {
-    return this.messageModel.findById(id).exec();
+    const message = this.messageModel
+      .findById(id)
+      .exec();
+    if (!message) {
+      throw new NotFoundException(`Message with id ${id} not found`);
+    }
+    return message;
   }
 }

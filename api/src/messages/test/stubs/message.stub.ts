@@ -8,8 +8,8 @@ export const messageStub = (): Message => {
     text: "Test Message",
     user: userStub(),
     room: roomStub(),
-    date: "2024-03-11T13:47:48.823Z" as unknown as Date,
-    _id: "65ea398ffd894565b7738170" as unknown as Types.ObjectId,
+    date: new Date(),
+    _id: "65ea398ffd894565b7738174" as unknown as Types.ObjectId,
     __v: 0
   }
 }

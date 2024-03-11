@@ -1,5 +1,5 @@
 import { Model } from "mongoose";
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { User } from "./schemas/users.schema";
 import { CreateUserDto, UpdateUserDto } from "./dto/users.dto";
@@ -25,13 +25,23 @@ export class UsersService {
   }
 
   async findOne(id: string): Promise<User> {
-    return this.userModel.findById(id).exec();
+    const user = this.userModel
+      .findById(id)
+      .exec();
+    if (!user) {
+      throw new NotFoundException(`User with id ${id} not found`);
+    }
+    return user;
   }
 
   async findByEmail(email: string): Promise<User> {
-    return this.userModel.findOne({
+    const user = await this.userModel.findOne({
       email: email
     }).exec();
+    if (!user) {
+      throw new NotFoundException(`User with email ${email} not found`);
+    }
+    return user;
   }
 
   async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
@@ -41,8 +51,6 @@ export class UsersService {
     if (organizationId) {
       const organization = await this.organizationsService.findOne(organizationId);
       user.organization = organization;
-    } else {
-      user.organization = user.organization;
     }
 
     if (roomIds) {

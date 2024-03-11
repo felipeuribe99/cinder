@@ -28,7 +28,7 @@ describe('RoomsController', () => {
       let rooms: Room[]
 
       beforeEach(async () => {
-        rooms = await roomsController.findAll()
+        rooms = await roomsController.findAll(roomStub().organization._id as unknown as string)
       })
 
       test('then it should call roomsService', () => {
@@ -51,29 +51,6 @@ describe('RoomsController', () => {
 
       test('then it should call roomsService', () => {
         expect(roomsService.findOne).toHaveBeenCalledWith(roomStub()._id as unknown as string);
-      });
-
-      test('then it should return a room', () => {
-        expect(room).toEqual(roomStub());
-      });
-    });
-  });
-
-  describe('create', () => {
-    describe('when create is called', () => {
-      let room: Room
-      let createRoomDto: CreateRoomDto
-
-      beforeEach(async () => {
-        createRoomDto = {
-          name: roomStub().name,
-          organizationId: roomStub().organization._id as unknown as string,
-        }
-        room = await roomsController.create(createRoomDto)
-      })
-
-      test('then it should call roomsService', () => {
-        expect(roomsService.create).toHaveBeenCalledWith(createRoomDto);
       });
 
       test('then it should return a room', () => {
