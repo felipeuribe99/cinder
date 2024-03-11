@@ -1,4 +1,4 @@
-import { Controller, Post, UseGuards } from "@nestjs/common";
+import { Controller, Post, Put, UseGuards } from "@nestjs/common";
 import { CommonsService } from "./commons.service";
 import { CreateOrganizationDto } from "../organizations/dto/organizations.dto";
 import { AuthGuard } from "../auth/auth.guard";

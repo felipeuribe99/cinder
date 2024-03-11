@@ -1,6 +1,7 @@
-import { Controller, Get, Post, Put, Param } from "@nestjs/common";
+import { Controller, Get, Post, Put, Param, UseGuards } from "@nestjs/common";
 import { CreateUserDto, UpdateUserDto } from "./dto/users.dto";
 import { UsersService } from "./users.service";
+import { AuthGuard } from "../auth/auth.guard";
 
 @Controller("users")
 export class UsersController {
@@ -21,8 +22,10 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
+  @UseGuards(AuthGuard)
   @Put(":id")
-  async update(@Param("id") id: string, updateUserDto: UpdateUserDto) {
-    return this.usersService.update(id, updateUserDto);
+  async update(@Param("id") id: string, updateUserDto: UpdateUserDto, req: any) {
+    const { adminId } = req.user._id;
+    return this.usersService.update(id, updateUserDto, adminId);
   }
 }

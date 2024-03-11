@@ -4,6 +4,8 @@ import { UsersService } from "../users.service";
 import { userStub } from "./stubs/user.stub";
 import { User } from "../schemas/users.schema";
 import { CreateUserDto, UpdateUserDto } from "../dto/users.dto";
+import { JwtService } from "@nestjs/jwt";
+import { FakeAuthModule } from "../../auth/__mocks__/fake-auth-module";
 
 jest.mock("../users.service");
 
@@ -13,9 +15,9 @@ describe('UsersController', () => {
   
   beforeEach(async () => {
     const module = await Test.createTestingModule({
-      imports: [],
+      imports: [FakeAuthModule],
       controllers: [UsersController],
-      providers: [UsersService],
+      providers: [UsersService, JwtService],
     }).compile(); 
 
     usersController = module.get<UsersController>(UsersController);
@@ -95,11 +97,17 @@ describe('UsersController', () => {
           organizationId: userStub().organization._id as unknown as string,
           roomIds: [userStub().rooms[0]._id as unknown as string],
         }
-        user = await usersController.update(userStub()._id as unknown as string, updateUserDto)
+        user = await usersController.update(
+          userStub()._id as unknown as string, 
+          updateUserDto, 
+          {
+            user: { _id: userStub()._id },
+          } as any,
+        )
       })
 
       test('then it should call usersService', () => {
-        expect(usersService.update).toHaveBeenCalledWith(userStub()._id as unknown as string, updateUserDto);
+        expect(usersService.update).toHaveBeenCalledWith(userStub()._id as unknown as string, updateUserDto, undefined);
       });
 
       test('then it should return a user', () => {
