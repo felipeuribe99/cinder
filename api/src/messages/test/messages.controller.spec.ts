@@ -78,7 +78,8 @@ describe('MessagesController', () => {
           roomId: messageStub().room._id as unknown as string,
         };
 
-        message = await messagesController.create({
+        message = await messagesController.create(
+        {
           user: { _id: messageStub().user._id },
         } as any,
         createMessageDto);

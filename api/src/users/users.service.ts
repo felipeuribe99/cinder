@@ -44,8 +44,9 @@ export class UsersService {
     return user;
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
-    const { organizationId, roomIds, ...userBody } = updateUserDto;
+  async update(id: string, updateUserDto: UpdateUserDto, adminId?: string): Promise<User> {
+    const { organizationId, roomIds, is_approved, ...userBody } = updateUserDto;
+    const admin = await this.findOne(adminId);
     let user = await this.findOne(id);
     
     if (organizationId) {
@@ -61,6 +62,14 @@ export class UsersService {
             user.rooms.push(room);
           }
         }
+      }
+    }
+
+    if (is_approved) {
+      if (admin?.admin) {
+        user.is_approved = is_approved;
+      } else {
+        throw new NotFoundException(`User with id ${adminId} is not an admin`);
       }
     }
 
