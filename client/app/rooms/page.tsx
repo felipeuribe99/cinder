@@ -1,36 +1,24 @@
 import { cookies } from "next/headers";
 
-import { User, Room } from "../utils/interfaces";
-import currentUser from "../../services/auth/profile";
-import findAllRooms from "../../services/rooms/findAll";
-import { PrimaryButton } from "../components/ui/button";
+import { User } from "../utils/interfaces";
+import AddUserToRoomForm from "../components/forms/add-user-to-room";
 import CreateRoomForm from "../components/forms/create-room";
+import currentUser from "../../services/auth/profile";
+import findAllUsers from "../../services/users/findAll";
 
 const Rooms = async () => {
   const token = cookies().get('token')?.value;
   const user = (await currentUser()) as User;
-  const rooms = (await findAllRooms(token, user?.organization._id)) as Room[];
+  const organizationUsers = await findAllUsers(token, user.organization._id) as User[];
 
   return (
     <div className="flex flex-col items-center text-dark gap-6">
       <div className="flex flex-col items-center gap-16">
-        <h1 className='text-lg font-semibold'>Rooms:</h1>
-        <ul className='flex flex-col gap-4'>
-          {rooms && rooms.map((room) => {
-            return (
-              <li key={room._id} className='flex flex-row gap-8 items-center py-4 px-10 bg-primary-100 rounded-lg justify-between'>
-                <h1 className='text-xl text-primary-700'>{room.name}</h1>
-                <PrimaryButton 
-                  type='button' 
-                  // loading={loading} 
-                  // onClick={() => onClick(organizationUser._id)}
-                >
-                  Go chat
-                </PrimaryButton>
-              </li>
-            )
-          })}
-        </ul>
+        <AddUserToRoomForm 
+          token={token}
+          user={user} 
+          organizationUsers={organizationUsers} 
+        />
         {user?.admin &&
           <div className='flex flex-col items-center gap-4'>
             <h1 className='text-lg font-semibold'>¿Do you want to create a new room?</h1>

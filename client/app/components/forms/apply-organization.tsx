@@ -28,7 +28,6 @@ const ApplyOrganizationForm = ({ token, userId, organizations }: Props) => {
       }
       router.refresh()
     } catch (error) {
-      console.log(error)
       setErrorMessage('An error ocurred while applying to the organization')
     } finally {
       setLoading(false)
@@ -39,7 +38,7 @@ const ApplyOrganizationForm = ({ token, userId, organizations }: Props) => {
     <ul className='flex flex-col gap-4'>
       {organizations.map((organization) => {
         return (
-          <li key={organization._id} className='flex flex-row gap-8 items-center py-4 px-10 bg-secondary-100 rounded-lg justify-between'>
+          <li key={organization._id} className='flex flex-row gap-8 items-center py-4 px-10 bg-secondary-100 rounded-lg justify-between w-full'>
             <h1 className='text-xl text-secondary-700'>{organization.name}</h1>
             <SecondaryButton 
               type='button' 

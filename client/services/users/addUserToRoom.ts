@@ -1,16 +1,17 @@
 import axios from 'axios';
 
-const approvedIntoAnOrganization = async (
+const addUserToRoom = async (
   token: string | undefined, 
   userId: string | undefined, 
-  organizationId: string
+  organizationId: string,
+  roomIds: string[]
 ) => {
   try {
     const response = await axios.put(
       `http://localhost:3000/users/${userId}`,
       {
-        isApproved: true,
-        organizationId
+        organizationId,
+        roomIds,
       },
       {
         headers: {
@@ -25,4 +26,4 @@ const approvedIntoAnOrganization = async (
   }
 };
 
-export default approvedIntoAnOrganization;
+export default addUserToRoom;

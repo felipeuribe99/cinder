@@ -20,7 +20,6 @@ const applyOrganization = async (
     );
     return response.data;
   } catch (error) {
-    console.error(error);
     return null;
   }
 };

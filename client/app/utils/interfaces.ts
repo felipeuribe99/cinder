@@ -10,6 +10,7 @@ export interface User {
   admin: boolean;
   isApproved: boolean;
   organization: Organization;
+  rooms: Room[];
 }
 
 export interface Organization {
