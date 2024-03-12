@@ -4,6 +4,15 @@ export interface CustomError {
 }
 
 export interface User {
-  id: string;
+  _id: string;
+  name: string;
   email: string;
+  admin: boolean;
+  isApproved: boolean;
+  organization: Organization;
+}
+
+export interface Organization {
+  _id: string;
+  name: string;
 }

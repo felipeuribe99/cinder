@@ -12,7 +12,6 @@ const create = async (name: string, email: string, password: string) => {
     );
     return response.data;
   } catch (error) {
-    console.error(error);
     return null;
   }
 };

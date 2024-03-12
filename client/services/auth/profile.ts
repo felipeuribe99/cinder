@@ -12,9 +12,19 @@ const currentUser = async () => {
         },
       }
     );
-    return response.data;
+    if (response.data) {
+      const user = await axios.get(
+        `http://localhost:3000/users/${response.data.sub}`, 
+      );
+      if (user.data) {
+        return user.data;
+      } else {
+        throw new Error('Invalid credentials');
+      }
+    } else {
+      throw new Error('Invalid credentials');
+    }
   } catch (error) {
-    console.error(error);
     return null;
   }
 };

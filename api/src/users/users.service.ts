@@ -26,12 +26,14 @@ export class UsersService {
   }
 
   async findOne(id: string): Promise<User> {
-    const user = this.userModel
+    const user = await this.userModel
       .findById(id)
+      .populate('organization')
       .exec();
     if (!user) {
       throw new NotFoundException(`User with id ${id} not found`);
     }
+    console.log('user', user);
     return user;
   }
 
@@ -90,7 +92,7 @@ export class UsersService {
       }
     }
 
-    return this.userModel.findByIdAndUpdate(id, user, { new: true }).exec();
+    return await this.userModel.findByIdAndUpdate(id, user, { new: true }).exec();
   }
 
   private async updateUserRooms(user: User, roomIds: string[]): Promise<User> {

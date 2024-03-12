@@ -5,7 +5,7 @@ interface ButtonProps {
   loading?: boolean;
 }
 
-const PrimaryButton = ({
+export const PrimaryButton = ({
   children,
   type = 'button',
   onClick,
@@ -15,7 +15,7 @@ const PrimaryButton = ({
     <button
       type={type}
       onClick={onClick}
-      className={`bg-primary-400 text-neutral-100 rounded-md p-2 hover:opacity-80 ${
+      className={`bg-primary-400 text-neutral-100 rounded-md py-2 px-6 hover:opacity-80 ${
         loading ? 'opacity-50' : ''
       }`}
       disabled={loading}
@@ -25,4 +25,23 @@ const PrimaryButton = ({
   );
 };
 
-export default PrimaryButton;
+
+export const SecondaryButton = ({
+  children,
+  type = 'button',
+  onClick,
+  loading = false,
+}: ButtonProps) => {
+  return (
+    <button
+      type={type}
+      onClick={onClick}
+      className={`bg-secondary-400 text-neutral-100 rounded-md py-2 px-6 hover:opacity-80 ${
+        loading ? 'opacity-50' : ''
+      }`}
+      disabled={loading}
+    >
+      {loading ? 'Loading...' : children}
+    </button>
+  );
+};

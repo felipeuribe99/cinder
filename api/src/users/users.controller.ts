@@ -7,7 +7,7 @@ import { AuthGuard } from "../auth/auth.guard";
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Get("/:organizationId")
+  @Get("/organization/:organizationId")
   async findAll(@Param("organizationId") organizationId: string) {
     return this.usersService.findAll(organizationId);
   }
