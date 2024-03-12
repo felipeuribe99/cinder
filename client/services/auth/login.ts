@@ -1,12 +1,8 @@
 import axios from 'axios';
-import { User } from '../app/utils/interfaces';
 
 const signin = async (email: string, password: string) => {
-  let accessToken: User | null = null;
   try {
-    const response = await axios.post<{
-      accessToken: User | null;
-    }>(
+    const response = await axios.post(
       `http://localhost:3000/auth/login`, 
       {
         email,
@@ -14,8 +10,7 @@ const signin = async (email: string, password: string) => {
       },
       { withCredentials: true }
     );
-    accessToken = response.data.accessToken;
-    return accessToken;
+    return response.data;
   } catch (error) {
     return null;
   }

@@ -1,6 +1,6 @@
 import AuthorizedNavigation from './authorized';
 import UnauthorizedNavigation from './unauthorized';
-import currentUser from '../../../services/profile';
+import currentUser from '../../../services/auth/profile';
 import { User } from '../../utils/interfaces';
 
 const Topbar = async () => {

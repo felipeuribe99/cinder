@@ -4,14 +4,17 @@ import { cookies } from 'next/headers';
 const currentUser = async () => {
   const token = cookies().get('token')?.value;
   try {
-    const response = await axios.get<{
-    }>(`http://localhost:3000/auth/profile`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axios.get(
+      `http://localhost:3000/auth/profile`, 
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     return response.data;
   } catch (error) {
+    console.error(error);
     return null;
   }
 };

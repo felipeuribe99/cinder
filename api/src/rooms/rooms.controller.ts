@@ -1,5 +1,5 @@
-import { Controller, Get, Post, Put, Param, UseGuards, Body } from "@nestjs/common";
-import { CreateRoomDto, UpdateRoomDto } from "./dto/rooms.dto";
+import { Controller, Get, Put, Param, Body } from "@nestjs/common";
+import { UpdateRoomDto } from "./dto/rooms.dto";
 import { RoomsService } from "./rooms.service";
 
 @Controller("rooms")
