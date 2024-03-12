@@ -5,11 +5,13 @@ import {
   HttpCode, 
   HttpStatus,
   Post, 
-  Request,
+  Res,
+  Req,
   UseGuards
 } from '@nestjs/common';
 import { AuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
+import { Response, Request } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -17,13 +19,13 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Post('login')
-  login(@Body() loginDto: Record<string, any>) {
-    return this.authService.login(loginDto.email, loginDto.password);
+  async login(@Body() loginDto: Record<string, any>, @Res() response: Response) {
+    await this.authService.login(loginDto.email, loginDto.password, response);
   }
 
   @UseGuards(AuthGuard)
   @Get('profile')
-  getProfile(@Request() req: any) {
-    return req.user;
+  getProfile(@Req() request: Request) {
+    return this.authService.getUserFromCookie(request);
   }
 }
