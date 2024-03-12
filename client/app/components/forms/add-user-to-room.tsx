@@ -56,8 +56,8 @@ const AddUserToRoomForm = ({ token, user, organizationUsers }: Props) => {
               <h1 className='text-xl text-primary-700'>{room.name}</h1>
               <PrimaryButton 
                 type='button' 
-                // loading={loading} 
-                // onClick={() => onClick(organizationUser._id)}
+                loading={loading} 
+                onClick={() => router.push(`/rooms/${room._id}`)}
               >
                 Go chat
               </PrimaryButton>

@@ -22,3 +22,10 @@ export interface Room {
   _id: string;
   name: string;
 }
+
+export interface Message {
+  _id: string;
+  text: string;
+  user: User;
+  date: string;
+}
