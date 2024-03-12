@@ -20,7 +20,7 @@ export class User {
   admin: boolean;
 
   @Prop({ required: true, default: false })
-  is_approved: boolean;
+  isApproved: boolean;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Organization' })
   organization: Organization;

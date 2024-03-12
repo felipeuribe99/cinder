@@ -14,7 +14,7 @@ export class CommonsController {
     @Body()createOrganizationDto: CreateOrganizationDto, 
     @Request() req: any
   ) {
-    const { userId } = req.user.sub;
+    const userId = req.user.sub;
     return this.commonsService.createOrganization(userId, createOrganizationDto);
   }
 
@@ -24,7 +24,7 @@ export class CommonsController {
     @Body() createRoomDto: CreateRoomDto, 
     @Request() req: any
   ) {
-    const { userId } = req.user.sub;
+    const userId = req.user.sub;
     return this.commonsService.createRoom(userId, createRoomDto);
   }
 }

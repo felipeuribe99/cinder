@@ -18,15 +18,22 @@ export class CreateUserDto {
     example: "password"
   })
   password: string;
-  
+}
+
+export class UpdateUserDto extends PartialType(CreateUserDto) {
   @ApiProperty({
     description: "The user's admin status",
     example: false
   })
-  admin: boolean;
-}
+  admin?: boolean;
 
-export class UpdateUserDto extends PartialType(CreateUserDto) {
+  @ApiProperty({
+    description: "The user's status in the org",
+    type: Boolean,
+    example: false
+  })
+  isApproved?: boolean;
+
   @ApiProperty({
     description: "The user's organization ID",
     type: String,
@@ -40,11 +47,4 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
     example: ["65ea398ffd894565b7738174"]
   })
   roomIds?: string[];
-
-  @ApiProperty({
-    description: "The user's status in the org",
-    type: Boolean,
-    example: false
-  })
-  is_approved?: boolean;
 }

@@ -25,6 +25,7 @@ export class RoomsService {
   }
 
   async findAll(organizationId: string): Promise<Room[]> {
+    await this.organizationsService.findOne(organizationId);
     return this.roomModel.find({ organization: organizationId }).exec();
   }
 
@@ -34,6 +35,16 @@ export class RoomsService {
       .exec();
     if (!room) {
       throw new NotFoundException(`Room with id ${id} not found`);
+    }
+    return room;
+  }
+
+  async findByName(organizationId: string, name: string): Promise<Room> {
+    await this.organizationsService.findOne(organizationId);
+    const organizationRooms = await this.roomModel.find({ organization: organizationId }).exec();
+    const room = organizationRooms.find(room => room.name === name);
+    if (!room) {
+      throw new NotFoundException(`Room with name ${name} not found`);
     }
     return room;
   }

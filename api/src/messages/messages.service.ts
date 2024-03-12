@@ -30,7 +30,8 @@ export class MessagesService {
   }
 
   async findAll(roomId: string): Promise<Message[]> {
-    return this.messageModel.find({ room: roomId }).populate('user').populate('room').exec();
+    await this.roomsService.findOne(roomId);
+    return this.messageModel.find({ room: roomId }).populate('user').exec();
   }
 
 
