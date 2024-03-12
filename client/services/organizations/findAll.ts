@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const findAll = async () => {
+const findAllOrganizations = async () => {
   try {
     const response = await axios.get(
       `http://localhost:3000/organizations`, 
@@ -11,4 +11,4 @@ const findAll = async () => {
   }
 };
 
-export default findAll;
+export default findAllOrganizations;

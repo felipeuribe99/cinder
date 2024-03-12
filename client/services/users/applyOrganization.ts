@@ -1,6 +1,10 @@
 import axios from 'axios';
 
-const apply = async (token: string | undefined, userId: string | undefined, organizationId: string) => {
+const applyOrganization = async (
+  token: string | undefined, 
+  userId: string | undefined, 
+  organizationId: string
+) => {
   try {
     const response = await axios.put(
       `http://localhost:3000/users/${userId}`,
@@ -21,4 +25,4 @@ const apply = async (token: string | undefined, userId: string | undefined, orga
   }
 };
 
-export default apply;
+export default applyOrganization;

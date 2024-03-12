@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 
 import { SecondaryButton } from "../ui/button"
 import { Organization } from "../../utils/interfaces"
-import apply from "../../../services/users/apply-organization"
+import applyOrganization from "../../../services/users/applyOrganization"
 
 interface Props {
   token: string | undefined
@@ -22,7 +22,7 @@ const ApplyOrganizationForm = ({ token, userId, organizations }: Props) => {
   const onClick = async (organizationId: string) => {
     setLoading(true)
     try {
-      const res = await apply(token, userId, organizationId)
+      const res = await applyOrganization(token, userId, organizationId)
       if (!res) {
         throw new Error('An error ocurred while applying to the organization')
       }
