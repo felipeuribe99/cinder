@@ -25,7 +25,7 @@ export class AuthController {
 
   @UseGuards(AuthGuard)
   @Get('profile')
-  getProfile(@Req() request: Request) {
-    return this.authService.getUserFromCookie(request);
+  getProfile(@Req() request: any) {
+    return request.user;
   }
 }

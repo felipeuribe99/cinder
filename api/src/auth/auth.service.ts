@@ -27,33 +27,7 @@ export class AuthService {
     }
     const payload = { email: user.email, sub: user._id };
     const accessToken = await this.jwtService.signAsync(payload);
-    res.cookie('token', accessToken, { httpOnly: true });
+    res.cookie('token', accessToken);
     res.status(200).json({ accessToken });
-  }
-
-  private extractTokenFromCookies(request: Request): string | undefined {
-    return request.cookies['token'];
-  }
-
-  async getUserFromCookie(request: Request): Promise<any> {
-    const token = this.extractTokenFromCookies(request);
-    if (!token) {
-      throw new UnauthorizedException();
-    }
-
-    try {
-      const payload = await this.jwtService.verifyAsync(token, {
-        secret: jwtConstants.secret,
-      });
-
-      const user = await this.usersService.findOne(payload.sub);
-      if (!user) {
-        throw new UnauthorizedException();
-      }
-
-      return user;
-    } catch (error) {
-      throw new UnauthorizedException();
-    }
   }
 }
