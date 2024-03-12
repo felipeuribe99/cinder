@@ -17,7 +17,7 @@ export const PrimaryButton = ({
     <button
       type={type}
       onClick={onClick}
-      className={`bg-primary-400 text-neutral-100 rounded-md py-2 px-6 hover:opacity-80 ${
+      className={`bg-primary-400 text-neutral-100 rounded-md py-2 px-6 hover:opacity-80 w-full ${
         loading ? 'opacity-50' : ''
       }`}
       disabled={loading || disabled}
@@ -39,7 +39,7 @@ export const SecondaryButton = ({
     <button
       type={type}
       onClick={onClick}
-      className={`bg-secondary-400 text-neutral-100 rounded-md py-2 px-6 hover:opacity-80 ${
+      className={`bg-secondary-400 text-neutral-100 rounded-md py-2 px-6 hover:opacity-80 w-full ${
         loading ? 'opacity-50' : ''
       }`}
       disabled={loading || disabled}
