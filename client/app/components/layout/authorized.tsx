@@ -3,6 +3,7 @@ import { User } from "../../utils/interfaces";
 const AuthorizedNavigation = ({ user }: { user: User }) => {
   return (
     <div className="flex gap-4">
+      <a href="/">Home</a>
       {user.organization && user.isApproved && (
         <a href="/rooms">Rooms</a>
       )}

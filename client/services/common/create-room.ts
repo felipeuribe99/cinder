@@ -1,22 +1,23 @@
 import axios from 'axios';
 
-const applyOrganization = async (
+const createRoom = async (
   token: string | undefined, 
-  userId: string | undefined, 
+  name: string, 
   organizationId: string
 ) => {
   try {
-    const response = await axios.put(
-      `http://localhost:3000/users/${userId}`,
+    const response = await axios.post(
+      `http://localhost:3000/commons/create-room`, 
       {
+        name,
         organizationId,
       },
-      {
+      { 
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        withCredentials: true,
-      },
+        withCredentials: true 
+      }
     );
     return response.data;
   } catch (error) {
@@ -24,4 +25,4 @@ const applyOrganization = async (
   }
 };
 
-export default applyOrganization;
+export default createRoom;

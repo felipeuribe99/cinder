@@ -15,6 +15,12 @@ const currentUser = async () => {
     if (response.data) {
       const user = await axios.get(
         `http://localhost:3000/users/${response.data.sub}`, 
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true,
+        }
       );
       if (user.data) {
         return user.data;

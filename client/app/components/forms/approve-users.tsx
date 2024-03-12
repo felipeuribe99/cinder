@@ -43,7 +43,7 @@ const ApproveUsers = ({
     <ul className='flex flex-col gap-4'>
       {organizationUsers.map((organizationUser) => {
         return (
-          <li key={organizationUser._id} className='flex flex-row gap-8 items-center py-4 px-10 bg-primary-100 rounded-lg justify-between'>
+          <li key={organizationUser._id} className='flex flex-row gap-8 items-center py-4 px-10 bg-primary-100 rounded-lg justify-between w-full'>
             <h1 className='text-xl text-primary-700'>{organizationUser.name}</h1>
             {!organizationUser.isApproved ?
               (currentUser.admin ? (

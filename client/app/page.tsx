@@ -2,7 +2,6 @@ import { Organization, User } from './utils/interfaces';
 import currentUser from '../services/auth/profile';
 import Unauthorized from './components/errors/401';
 import findAllOrganizations from '../services/organizations/findAll';
-import { SecondaryButton } from './components/ui/button';
 import CreateOrganizationForm from './components/forms/create-organization';
 
 import { cookies } from 'next/headers';
@@ -13,13 +12,13 @@ import ApproveUsers from './components/forms/approve-users';
 const Home = async () => {
   const token = cookies().get('token')?.value;
   const user = (await currentUser()) as User;
-  const organizations = (await findAllOrganizations()) as Organization[];
+  const organizations = (await findAllOrganizations(token)) as Organization[];
   let organizationUsers: User[] = [];
 
   if (!user) {
     return <Unauthorized />;
   } else if (user.organization) {
-    organizationUsers = (await findAllUsers(user.organization._id)) as User[];
+    organizationUsers = (await findAllUsers(token, user.organization._id)) as User[];
   }
 
   return (

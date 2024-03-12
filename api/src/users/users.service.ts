@@ -29,6 +29,7 @@ export class UsersService {
     const user = await this.userModel
       .findById(id)
       .populate('organization')
+      .populate('rooms')
       .exec();
     if (!user) {
       throw new NotFoundException(`User with id ${id} not found`);

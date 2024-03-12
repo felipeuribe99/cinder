@@ -7,13 +7,15 @@ import { AuthGuard } from "../auth/auth.guard";
 export class MessagesController {
   constructor(private readonly messagesService: MessagesService) {}
 
-  @Get('/:roomId')
+  @UseGuards(AuthGuard)
+  @Get('/rooms/:roomId')
   async findAll(
     @Param('roomId') roomId: string
   ) {
     return this.messagesService.findAll(roomId);
   }
 
+  @UseGuards(AuthGuard)
   @Get("/:id")
   async findOne(
     @Param("id") id: string
