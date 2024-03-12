@@ -28,4 +28,10 @@ export class AuthController {
   getProfile(@Req() request: any) {
     return request.user;
   }
+
+  @Post('logout')
+  async logout(@Res() response: Response) {
+    response.clearCookie('token');
+    response.status(200).send('Logged out');
+  }
 }

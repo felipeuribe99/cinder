@@ -4,7 +4,7 @@ import Link from 'next/link';
 import PrimaryButton from '../../components/ui/button';
 import { inputClassName } from '../../utils/classNames';
 import { useRouter } from 'next/navigation';
-import signin from '@/services/login';
+import signin from '@/services/auth/login';
 
 const Signin = () => {
   const router = useRouter();
@@ -17,8 +17,11 @@ const Signin = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await signin(email, password);
-      router.push('/');
+      const res = await signin(email, password);
+      if (!res) {
+        throw new Error('Invalid credentials');
+      }
+      router.push('/confirm');
     } catch (error) {
       setError('Invalid credentials');
     } finally {
