@@ -5,13 +5,14 @@ import { useRouter } from 'next/navigation';
 
 import { PrimaryButton } from "../ui/button"
 import { inputClassName } from "../../utils/classNames"
-import createOrganization from "../../../services/common/create-organization"
+import createRoom from "../../../services/common/create-room";
 
 interface Props {
-  token: string | undefined
+  token: string | undefined,
+  organizationId: string
 }
 
-const CreateOrganizationForm = ({ token }: Props) => {
+const CreateRoomForm = ({ token, organizationId }: Props) => {
   const router = useRouter()
 
   const [name, setName] = useState<string>('')
@@ -22,7 +23,7 @@ const CreateOrganizationForm = ({ token }: Props) => {
     e.preventDefault()
     try {
       setLoading(true)
-      const res = await createOrganization(token, name)
+      const res = await createRoom(token, name, organizationId)
       if (!res) {
         throw new Error()
       }
@@ -46,11 +47,11 @@ const CreateOrganizationForm = ({ token }: Props) => {
         onChange={(e) => setName(e.target.value)}
         placeholder="Name"
       />
-      <PrimaryButton type='submit' loading={loading}>Create organization</PrimaryButton>
+      <PrimaryButton type='submit' loading={loading}>Create room</PrimaryButton>
       </div>
       {error && <div className="text-xs text-red-500 text-left">{error}</div>}
     </form>
   )
 }
 
-export default CreateOrganizationForm
+export default CreateRoomForm
