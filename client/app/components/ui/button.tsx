@@ -3,6 +3,7 @@ interface ButtonProps {
   type: 'submit' | 'button';
   onClick?: () => void;
   loading?: boolean;
+  disabled?: boolean;
 }
 
 export const PrimaryButton = ({
@@ -10,6 +11,7 @@ export const PrimaryButton = ({
   type = 'button',
   onClick,
   loading = false,
+  disabled = false,
 }: ButtonProps) => {
   return (
     <button
@@ -18,7 +20,7 @@ export const PrimaryButton = ({
       className={`bg-primary-400 text-neutral-100 rounded-md py-2 px-6 hover:opacity-80 ${
         loading ? 'opacity-50' : ''
       }`}
-      disabled={loading}
+      disabled={loading || disabled}
     >
       {loading ? 'Loading...' : children}
     </button>
@@ -31,6 +33,7 @@ export const SecondaryButton = ({
   type = 'button',
   onClick,
   loading = false,
+  disabled = false,
 }: ButtonProps) => {
   return (
     <button
@@ -39,7 +42,7 @@ export const SecondaryButton = ({
       className={`bg-secondary-400 text-neutral-100 rounded-md py-2 px-6 hover:opacity-80 ${
         loading ? 'opacity-50' : ''
       }`}
-      disabled={loading}
+      disabled={loading || disabled}
     >
       {loading ? 'Loading...' : children}
     </button>
