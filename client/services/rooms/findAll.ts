@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-const findAllUsers = async (token: string | undefined, organizationId: string) => {
+const findAllRooms = async (token: string | undefined, organizationId: string) => {
   try {
     const response = await axios.get(
-      `http://localhost:3000/users/organization/${organizationId}`,
+      `http://localhost:3000/rooms/organization/${organizationId}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -17,4 +17,4 @@ const findAllUsers = async (token: string | undefined, organizationId: string) =
   }
 };
 
-export default findAllUsers;
+export default findAllRooms;

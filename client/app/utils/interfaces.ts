@@ -16,3 +16,8 @@ export interface Organization {
   _id: string;
   name: string;
 }
+
+export interface Room {
+  _id: string;
+  name: string;
+}
