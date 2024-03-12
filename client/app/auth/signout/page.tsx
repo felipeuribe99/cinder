@@ -1,6 +1,6 @@
 'use client';
 
-import { logout } from '@/services/auth/logout';
+import { logout } from '../../../services/auth/logout';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 

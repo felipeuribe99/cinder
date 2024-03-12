@@ -1,10 +1,10 @@
 'use client';
 import { useState } from 'react';
 import Link from 'next/link';
-import PrimaryButton from '../../components/ui/button';
+import { PrimaryButton } from '../../components/ui/button';
 import { inputClassName } from '../../utils/classNames';
 import { useRouter } from 'next/navigation';
-import signin from '@/services/auth/login';
+import signin from '../../../services/auth/login';
 
 const Signin = () => {
   const router = useRouter();
